@@ -3,9 +3,9 @@ import time
 from math import tan, pi
 try:
     from robot_hat import *
-    from robot_hat import __reset_mcu
+    from robot_hat import reset_mcu
 
-    __reset_mcu()
+    reset_mcu()
     time.sleep(0.01)
 except ImportError:
     print(" This computer does not appear to be a PiCar -X system( robot_hat is not present ). Shadowing hardware calls with substitute functions ")
@@ -299,9 +299,9 @@ pan_angle_color = 0
 tilt_angle_color = 0
 def color_follow():
     global pan_angle_color, tilt_angle_color
-    Vilib.color_detect_switch(True)
-    status = [Vilib.color_detect_object('x'), Vilib.color_detect_object('y')]
-    size = [Vilib.color_detect_object('width'), Vilib.color_detect_object('height')]
+    vilib.color_detect_switch(True)
+    status = [vilib.color_detect_object('x'), vilib.color_detect_object('y')]
+    size = [vilib.color_detect_object('width'), vilib.color_detect_object('height')]
     time.sleep(0.005)
     #on left -1 on right 1
     if status[0] == -1:
@@ -328,8 +328,8 @@ pan_angle_human = 0
 tilt_angle_human = 0
 def human_follow():
     global pan_angle_human, tilt_angle_human
-    Vilib.human_detect_switch(True)
-    status = [Vilib.human_detect_object('x'), Vilib.human_detect_object('y')]
+    vilib.human_detect_switch(True)
+    status = [vilib.human_detect_object('x'), vilib.human_detect_object('y')]
     time.sleep(0.005)
     #on left -1 on right 1
     if status[0] == -1:

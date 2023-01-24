@@ -7,9 +7,9 @@ import cv2
 
 try:
     from robot_hat import *
-    from robot_hat import __reset_mcu
+    from robot_hat import reset_mcu
 
-    __reset_mcu()
+    reset_mcu()
     time.sleep(0.01)
 except ImportError:
     print(

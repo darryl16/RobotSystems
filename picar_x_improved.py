@@ -23,12 +23,10 @@ logging.getLogger().setLevel(logging.DEBUG)
 # comment out this line to remove debugging comments
 # logging . debug ( message ) Use this line to print debugging info
 
-#from logdecorator import log_on_start, log_on_end, log_on_error
+from logdecorator import log_on_start, log_on_end, log_on_error
 
 # Add these lines to the start of functions
-# @log_on_start ( logging . DEBUG , " Message when function starts ")
-# @log_on_error ( logging . DEBUG , " Message when function encounters an error before completing ")
-# @log_on_end ( logging . DEBUG , " Message when function ends successfully ")
+
 
 PERIOD = 4095
 PRESCALER = 10
@@ -59,7 +57,9 @@ for pin in motor_speed_pins:
     pin.period(PERIOD)
     pin.prescaler(PRESCALER)
 
-
+@log_on_start ( logging . DEBUG , " Set motor speed start ")
+@log_on_error ( logging . DEBUG , " Set motor speed error ")
+@log_on_end ( logging . DEBUG , " Set motor speed end ")
 def set_motor_speed(motor, speed):
     global cali_speed_value, cali_dir_value
     motor -= 1
@@ -78,7 +78,9 @@ def set_motor_speed(motor, speed):
         motor_direction_pins[motor].low()
         motor_speed_pins[motor].pulse_width_percent(speed)
 
-
+@log_on_start ( logging . DEBUG , " motor_speed_calibration start ")
+@log_on_error ( logging . DEBUG , " motor_speed_calibration error ")
+@log_on_end ( logging . DEBUG , " motor_speed_calibration end ")
 def motor_speed_calibration(value):
     global cali_speed_value, cali_dir_value
     cali_speed_value = value
@@ -89,7 +91,9 @@ def motor_speed_calibration(value):
         cali_speed_value[0] = abs(cali_speed_value)
         cali_speed_value[1] = 0
 
-
+@log_on_start ( logging . DEBUG , " motor_direction_calibration start ")
+@log_on_error ( logging . DEBUG , " motor_direction_calibration error ")
+@log_on_end ( logging . DEBUG , " motor_direction_calibration end ")
 def motor_direction_calibration(motor, value):
     # 0: positive direction
     # 1:negative direction
@@ -98,42 +102,56 @@ def motor_direction_calibration(motor, value):
     if value == 1:
         cali_dir_value[motor] = -1 * cali_dir_value[motor]
 
-
+@log_on_start ( logging . DEBUG , " dir_servo_angle_calibration start ")
+@log_on_error ( logging . DEBUG , " dir_servo_angle_calibration error ")
+@log_on_end ( logging . DEBUG , " dir_servo_angle_calibration end ")
 def dir_servo_angle_calibration(value):
     global dir_cal_value
     dir_cal_value = value
     dir_servo_pin.angle(dir_cal_value)
 
-
+@log_on_start ( logging . DEBUG , " set_dir_servo_angle start ")
+@log_on_error ( logging . DEBUG , " set_dir_servo_angle error ")
+@log_on_end ( logging . DEBUG , " set_dir_servo_angle end ")
 def set_dir_servo_angle(value):
     global dir_cal_value
     value = round(value)
     # print("set_dir_servo_angle:%s"%value)
     dir_servo_pin.angle(value + dir_cal_value)
 
-
+@log_on_start ( logging . DEBUG , " camera_servo1_angle_calibration start ")
+@log_on_error ( logging . DEBUG , " camera_servo1_angle_calibration error ")
+@log_on_end ( logging . DEBUG , " camera_servo1_angle_calibration end ")
 def camera_servo1_angle_calibration(value):
     global cam_cal_value_1
     cam_cal_value_1 = value
     camera_servo_pin1.angle(cam_cal_value_1)
 
-
+@log_on_start ( logging . DEBUG , " camera_servo2_angle_calibration start ")
+@log_on_error ( logging . DEBUG , " camera_servo2_angle_calibration error ")
+@log_on_end ( logging . DEBUG , " camera_servo2_angle_calibration end ")
 def camera_servo2_angle_calibration(value):
     global cam_cal_value_2
     cam_cal_value_2 = value
     camera_servo_pin2.angle(cam_cal_value_2)
 
-
+@log_on_start ( logging . DEBUG , " set_camera_servo1_angle start ")
+@log_on_error ( logging . DEBUG , " set_camera_servo1_angle error ")
+@log_on_end ( logging . DEBUG , " set_camera_servo1_angle end ")
 def set_camera_servo1_angle(value):
     global cam_cal_value_1
     camera_servo_pin1.angle(value + cam_cal_value_1)
 
-
+@log_on_start ( logging . DEBUG , " set_camera_servo2_angle start ")
+@log_on_error ( logging . DEBUG , " set_camera_servo2_angle error ")
+@log_on_end ( logging . DEBUG , " set_camera_servo2_angle end ")
 def set_camera_servo2_angle(value):
     global cam_cal_value_2
     camera_servo_pin2.angle(value + cam_cal_value_2)
 
-
+@log_on_start ( logging . DEBUG , " get_adc_value start ")
+@log_on_error ( logging . DEBUG , " get_adc_value error ")
+@log_on_end ( logging . DEBUG , " get_adc_value end ")
 def get_adc_value():
     adc_value_list = []
     adc_value_list.append(S0.read())
@@ -141,12 +159,16 @@ def get_adc_value():
     adc_value_list.append(S2.read())
     return adc_value_list
 
-
+@log_on_start ( logging . DEBUG , " set_power start ")
+@log_on_error ( logging . DEBUG , " set_power error ")
+@log_on_end ( logging . DEBUG , " set_power end ")
 def set_power(speed):
     set_motor_speed(1, speed)
     set_motor_speed(2, speed)
 
-
+@log_on_start ( logging . DEBUG , " backward start ")
+@log_on_error ( logging . DEBUG , " backward error ")
+@log_on_end ( logging . DEBUG , " backward end ")
 def backward(speed, theta):
     if theta != 0:
         # print('turning angle:',theta)
@@ -164,7 +186,9 @@ def backward(speed, theta):
     set_motor_speed(2, motor_speed[1])
     # print("left speed", motor_speed[0],"right speed", motor_speed[1],)
 
-
+@log_on_start ( logging . DEBUG , " forward start ")
+@log_on_error ( logging . DEBUG , " forward error ")
+@log_on_end ( logging . DEBUG , " forward end ")
 def forward(speed, theta):
     if theta == 0:
         motor_speed = [speed, speed]
@@ -178,12 +202,16 @@ def forward(speed, theta):
     set_motor_speed(1, -1 * motor_speed[0])
     set_motor_speed(2, -1 * motor_speed[1])
 
-
+@log_on_start ( logging . DEBUG , " stop start ")
+@log_on_error ( logging . DEBUG , " stop error ")
+@log_on_end ( logging . DEBUG , " stop end ")
 def stop():
     set_motor_speed(1, 0)
     set_motor_speed(2, 0)
 
-
+@log_on_start ( logging . DEBUG , " Get_distance start ")
+@log_on_error ( logging . DEBUG , " Get_distance error ")
+@log_on_end ( logging . DEBUG , " Get_distance end ")
 def Get_distance():
     timeout = 0.01
     trig = Pin('D8')
@@ -217,7 +245,9 @@ DIR_FORWARD = 0
 DIR_RIGHT = 1
 DIR_OUT = 2
 
-
+@log_on_start ( logging . DEBUG , " get_line_status start ")
+@log_on_error ( logging . DEBUG , " get_line_status error ")
+@log_on_end ( logging . DEBUG , " get_line_status end ")
 def get_line_status():
     global ref
     fl_list = get_adc_value()
@@ -233,6 +263,9 @@ def get_line_status():
 # [0,1,1]: DIR_RIGHT
 # [1,1,1]: DIR_FORWARD
 
+@log_on_start ( logging . DEBUG , " get_direction start ")
+@log_on_error ( logging . DEBUG , " get_direction error ")
+@log_on_end ( logging . DEBUG , " get_direction end ")
 def get_direction():  # 170<x<300
     fl_list = get_line_status()
     # if fl_list[1] <= ref:
@@ -257,7 +290,9 @@ def get_direction():  # 170<x<300
 
 tmp = 0
 
-
+@log_on_start ( logging . DEBUG , " line_follow start ")
+@log_on_error ( logging . DEBUG , " line_follow error ")
+@log_on_end ( logging . DEBUG , " line_follow end ")
 def line_follow():
     global tmp
     speed = 10
@@ -308,6 +343,9 @@ def line_follow():
             time.sleep(0.001)
 
 
+@log_on_start ( logging . DEBUG , " test_line_detect start ")
+@log_on_error ( logging . DEBUG , " test_line_detect error ")
+@log_on_end ( logging . DEBUG , " test_line_detect end ")
 def test_line_detect():
     print(get_line_status())
     print(get_adc_value())
@@ -321,6 +359,9 @@ pan_angle_color = 0
 tilt_angle_color = 0
 
 
+@log_on_start ( logging . DEBUG , " color_follow start ")
+@log_on_error ( logging . DEBUG , " color_follow error ")
+@log_on_end ( logging . DEBUG , " color_follow end ")
 def color_follow():
     global pan_angle_color, tilt_angle_color
     vilib.color_detect_switch(True)
@@ -353,6 +394,9 @@ pan_angle_human = 0
 tilt_angle_human = 0
 
 
+@log_on_start ( logging . DEBUG , " human_follow start ")
+@log_on_error ( logging . DEBUG , " human_follow error ")
+@log_on_end ( logging . DEBUG , " human_follow end ")
 def human_follow():
     global pan_angle_human, tilt_angle_human
     vilib.human_detect_switch(True)
@@ -373,8 +417,11 @@ def human_follow():
         set_camera_servo2_angle(max(-45, tilt_angle_human))
 
 
-
+@log_on_start ( logging . DEBUG , " Calibratesteering start ")
+@log_on_error ( logging . DEBUG , " Calibratesteering error ")
+@log_on_end ( logging . DEBUG , " Calibratesteering end ")
 def Calibratesteering():
+    # Testing different angles
     camera_servo1_angle_calibration(6)
     camera_servo2_angle_calibration(9)
     dir_servo_angle_calibration(-9)
@@ -391,6 +438,9 @@ def Calibratesteering():
     camera_servo_pin2.angle(-39)
 
 
+@log_on_start ( logging . DEBUG , " manual_motor_shutdown start ")
+@log_on_error ( logging . DEBUG , " manual_motor_shutdown error ")
+@log_on_end ( logging . DEBUG , " manual_motor_shutdown end ")
 def manual_motor_shutdown():
     stop()
 

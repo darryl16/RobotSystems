@@ -24,7 +24,7 @@ def move_forward(speed,length,angle):
     picar_x_improved.stop()
     print('finished moving forward')
     
-def pl_park(speed,length, direction=-1):
+def parellel_parking(speed,length, direction=-1):
     # picarx_improved.set_dir_servo_angle(0)
     # time.sleep(.1)
     picar_x_improved.set_dir_servo_angle(direction*40)
@@ -72,13 +72,13 @@ if __name__ == "__main__":
     choice = input('Choose an action to take: (park, forward, kturn)')
     if choice == 'forward':
         print('moving forward...')
-        move_forward(50,2,0)
+        move_forward(48,2,0)
     elif choice == 'park':
-        print('parking...')
-        pl_park(75, 1.75,-1)
+        print('parellel_parking...')
+        parellel_parking(65, 1.75,-1)
     elif choice == 'kturn':
         print('turning around...')
-        k_turn(75,2.25,-1)
+        k_turn(65,2.25,-1)
     else:
         print('did nothing...')
         pass

@@ -27,7 +27,7 @@ logging.basicConfig(level = logging.INFO) #format = logging_format, level = logg
 # comment out this line to remove debugging comments
 # logging.debug (message) Use this line to print debugging info
 
-from logdecorator import log_on_start , log_on_end , log_on_error 
+#from logdecorator import log_on_start , log_on_end , log_on_error
 
 
 def move_forward(m,speed,length,angle):

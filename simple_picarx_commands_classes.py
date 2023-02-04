@@ -36,7 +36,7 @@ def move_forward(m,speed,length,angle):
     time.sleep(length)
     m.stop()
     
-def pl_park(m, speed, length, direction=-1):
+def parallel_park(m, speed, length, direction=-1):
     m.set_dir_servo_angle(direction*40)
     m.backward(speed)
     time.sleep(length*.50)
@@ -103,13 +103,13 @@ if __name__ == "__main__":
     choice = input('Choose an action to take: (park, forward, kturn, grayfollow, camerafollow)')
     if choice == 'forward':
         print('moving forward...')
-        move_forward(m,50,2,0)
+        move_forward(m,49,2,0)
     elif choice == 'park':
         print('parking...')
-        pl_park(m,75, 1.75,-1)
+        parallel_park(m,73, 1.54,-1)
     elif choice == 'kturn':
         print('turning around...')
-        k_turn(m,75,2.25,-1)
+        k_turn(m,74,2.23,-1)
     elif choice == 'grayfollow':
         print('Following a line using the ADC grayscale sensor')
         gray_follow_line(m,s,i,c,0)

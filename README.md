@@ -1,3 +1,3 @@
 # RobotSystems
 ROB 515 
-week3_picar_x_commands_classes.py.py contains 3.4 Sensor-control integration and 3.5 Camera-based driving
+week5_picarx_multimodal.py contains multimodal for week 5 assignments
